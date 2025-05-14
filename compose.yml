@@ -11,7 +11,13 @@ services:
     build:
       context: . 
       dockerfile: .docker/Apache/Dockerfile
+    environment:
+      - VIRTUAL_HOST=www.pagina.com
+
+  nginx-proxy:
+    image: jwilder/nginx-proxy:alpine
+    restart: unless-stopped
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
     ports:
-      - "8000:80"
-    depends_on:
-      - php-fpm
+      - "80:80"
